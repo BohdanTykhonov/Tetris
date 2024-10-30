@@ -1,20 +1,19 @@
 import tkinter as tk
 import random
 
+# Головний клас, який створює вікно програми
 class Tetris(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Тетріс")
 
-        # Встановлюємо розміри вікна
+        # Встановлюємо розміри вікна відповідно до розмірів ігрової дошки
         self.window_width = Board.BoardWidth * Board.CellSize
         self.window_height = Board.BoardHeight * Board.CellSize
 
-        # Отримуємо розміри екрану
+        # Отримуємо розміри екрану, щоб відцентрувати вікно
         screen_width = self.winfo_screenwidth()
         screen_height = self.winfo_screenheight()
-
-        # Обчислюємо позицію для центрування вікна
         x_position = (screen_width - self.window_width) // 2
         y_position = (screen_height - self.window_height) // 2
 
@@ -29,6 +28,7 @@ class Tetris(tk.Tk):
         self.board.pack()
         self.board.start_game()  # Запуск гри
 
+# Клас, що відповідає за ігрову дошку та логіку гри
 class Board(tk.Canvas):
     BoardWidth = 10  # Ширина поля в клітинках
     BoardHeight = 22  # Висота поля в клітинках
@@ -50,7 +50,7 @@ class Board(tk.Canvas):
     def __init__(self, parent):
         super().__init__(parent, width=self.BoardWidth * self.CellSize, height=self.BoardHeight * self.CellSize, bg='black')
         self.parent = parent
-        self.bind_all("<Key>", self.on_key_press)
+        self.bind_all("<Key>", self.on_key_press) # Зв'язування всіх клавіш із методом on_key_press
         self.score_text = self.create_text(50, 10, text="Бали: 0", fill="white", font=("Arial", 16))
         self.game_over_text = None
 
@@ -138,7 +138,7 @@ class Board(tk.Canvas):
         """Закріплення фігури на полі"""
         for x, y in self.current_piece:
             if y >= 0:
-                self.board[y][x] = 1
+                self.board[y][x] = 1 # Позначаємо клітинку як зайняту
 
     def remove_full_lines(self):
         """Видалення повних ліній"""
